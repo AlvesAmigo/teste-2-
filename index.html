@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFLUXO RPG - Ferramentas Digitais</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>INFLUXO: Sistema RPG Digital</h1>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event, 'Calculadora')">🎲 Rolagem de Dados</button>
+        <button class="tab-button" onclick="openTab(event, 'Ficha')">📝 Criação de Ficha</button>
+        <button class="tab-button" onclick="openTab(event, 'Tabletop')">🗺️ Tabletop (Mesa Virtual)</button>
+    </div>
+
+    <div id="Calculadora" class="tab-content active">
+        <h2>Calculadora de Teste D6</h2>
+        <p class="regra">Regra INFLUXO: 1-3 (Erro), 4-5 (Acerto), 6 (Acerto Duplo: 2 Acertos)</p>
+
+        <div class="input-group">
+            <label for="numDados">Dados a Rolar (D6):</label>
+            <input type="number" id="numDados" value="3" min="1">
+        </div>
+        
+        <div class="input-group">
+            <label for="dificuldade">Dificuldade (Acertos Necessários - C):</label>
+            <input type="number" id="dificuldade" value="3" min="1">
+        </div>
+
+        <button class="roll-button" onclick="rolarDados()">ROlar TESTE de FLUXO</button>
+
+        <div id="resultado" class="resultado">
+            <p>Os resultados da rolagem aparecerão aqui.</p>
+        </div>
+    </div>
+
+    <div id="Ficha" class="tab-content">
+        <h2>Criar Ficha de Personagem (Sistema INFLUXO)</h2>
+        <form id="fichaForm">
+            <fieldset>
+                <legend>Dados Pessoais</legend>
+                <div class="input-group">
+                    <label>Nome:</label><input type="text" id="pNome">
+                    <label>Idade:</label><input type="number" id="pIdade" min="1">
+                    <label>Altura (cm):</label><input type="number" id="pAltura" min="50">
+                </div>
+                <label>Características Gerais:</label>
+                <textarea id="pCaracteristicas" rows="3"></textarea>
+            </fieldset>
+
+            <fieldset>
+                <legend>Nível, Classe e Fluxo</legend>
+                <label for="pNivel">Nível:</label>
+                <select id="pNivel">
+                    <option value="Civil">Civil (Sem Fluxo)</option>
+                    <option value="Iniciante">Iniciante (Fluxo Limitado)</option>
+                    <option value="Aventureiro">Aventureiro (Fluxo Preciso)</option>
+                </select>
+
+                <label for="pClasse">Classe (Tipo de Usuário de Fluxo):</label>
+                <select id="pClasse" onchange="atualizarAtributosBase()">
+                    <option value="N/A">N/A (Civil)</option>
+                    <option value="Combatente">Combatente (Aura Densa - Mais Vida)</option>
+                    <option value="Especialista">Especialista (Runas - Stats Medianos)</option>
+                    <option value="Evocador">Evocador de Entidades (Pacto - Vida/PH Medianos)</option>
+                    <option value="Manipulador">Manipulador de Fluxo (Aura Sutil - Mais PH)</option>
+                </select>
+                <div id="statsBase" class="stats-base"></div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Atributos (Valor Base)</legend>
+                <label>Vigor (Força e Resistência):</label><input type="number" id="aVigor" value="1" min="1">
+                <label>Ímpeto (Mente e Raciocínio):</label><input type="number" id="aImpulso" value="1" min="1">
+                <label>Presença (Carisma e Liderança):</label><input type="number" id="aPresenca" value="1" min="1">
+            </fieldset>
+            
+            <fieldset>
+                <legend>Habilidades Únicas (Máx. 4)</legend>
+                <p class="dica">Nome, Custo (PH) e Efeito</p>
+                <div id="habilidades-container">
+                    </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Perícias (Valores)</legend>
+                <div id="pericias-container"></div>
+            </fieldset>
+
+            <button type="button" onclick="gerarFichaJSON()">Gerar Ficha (JSON)</button>
+            <textarea id="fichaOutput" rows="5" readonly placeholder="A ficha será gerada aqui em formato JSON."></textarea>
+        </form>
+    </div>
+
+    <div id="Tabletop" class="tab-content">
+        <h2>Mesa Virtual Simples (Tabletop)</h2>
+        <p>Esta seção é uma representação visual simples do campo de batalha/cenário.</p>
+        <button onclick="adicionarPersonagem()">Adicionar Player/NPC</button>
+        <button onclick="limparTabletop()">Limpar Mesa</button>
+        <div id="game-board">
+            </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="pericias.js"></script>
+</body>
+</html>
